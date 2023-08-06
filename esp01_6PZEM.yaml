@@ -1,0 +1,249 @@
+###Change substitutions variable to match your board and wifi 
+substitutions:
+  hostname: "pzemesp"
+  platform: esp8266
+  board: esp01_1m
+  password: "apipassword"
+  ssid: "WIFISSID"
+  psa: "WIFIPASSWD"
+
+esphome:
+  name: $hostname
+  platform: $platform
+  board: $board
+
+logger:
+
+api:
+  password: $password
+
+ota:
+  password: $password
+
+wifi:
+  ssid: $ssid
+  password: $psa
+
+  ap:
+    ssid: "${hostname}_FallbackAP"
+    password: $password
+
+captive_portal:
+
+web_server:
+  port: 80
+
+###ESP01s have LED on GPIO2 that we use for RX with PZEM so we can not use LED at the same I/O
+#status_led:
+#  pin: 2
+
+time:
+  - platform: homeassistant
+    id: esptime 
+    
+uart:
+  tx_pin: 0
+  rx_pin: 2
+  baud_rate: 9600
+  stop_bits: 1
+
+text_sensor:
+  - platform: version
+    name: version
+  - platform: wifi_info
+    ip_address:
+      name: ip
+    ssid:
+      name: ssid
+    bssid:
+      name: bssid
+
+sensor:
+  - platform: wifi_signal
+    name: "WiFi signal"
+    update_interval: 10s
+    id: wifi_stat
+  - platform: uptime
+    name: $hostname Uptime
+    update_interval: 10s
+    id: upt
+
+  - platform: pzemac
+    address: 1
+    update_interval: 10s
+    id: pzem1
+    voltage:
+      name: "Line Voltage"
+      id: vol1
+    frequency:
+      name: "Line Frequency"
+      id: freq1
+    current:
+      name: "Ch-1 Current"
+      id: cur1
+    power:
+      name: "Ch-1 Power"
+      id: power1
+      state_class: measurement
+    power_factor:
+      name: "Ch-1 Power Factor"
+      id: pow_factor1
+  - platform: total_daily_energy
+    name: "Ch-1 Total Daily Energy"
+    id: totaldailyenergy1
+    unit_of_measurement: kWh
+    accuracy_decimals: 3
+    device_class: energy
+    filters:
+      - multiply: 0.001
+    power_id: power1
+
+  - platform: pzemac
+    address: 2
+    update_interval: 10s
+    id: pzem2
+#    voltage:
+#      name: "Ch-2 Voltage"
+#      id: vol2
+#    frequency:
+#      name: "Ch-2 Frequency"
+#      id: freq2
+    current:
+      name: "Ch-2 Current"
+      id: cur2
+    power:
+      name: "Ch-2 Power"
+      id: power2
+      state_class: measurement
+    power_factor:
+      name: "Ch-2 Power Factor"
+      id: pow_factor2
+  - platform: total_daily_energy
+    name: "Ch-2 Total Daily Energy"
+    id: totaldailyenergy2
+    unit_of_measurement: kWh
+    accuracy_decimals: 3
+    device_class: energy
+    filters:
+      - multiply: 0.001
+    power_id: power2
+
+  - platform: pzemac
+    address: 3
+    update_interval: 10s
+    id: pzem3
+ #   voltage:
+ #     name: "Ch-3 Voltage"
+ #     id: vol3
+ #   frequency:
+ #     name: "Ch-3 Frequency"
+ #     id: freq3
+    current:
+      name: "Ch-3 Current"
+      id: cur3
+    power:
+      name: "Ch-3 Power"
+      id: power3
+      state_class: measurement
+    power_factor:
+      name: "Ch-3 Power Factor"
+      id: pow_factor3
+  - platform: total_daily_energy
+    name: "Ch-3 Total Daily Energy"
+    id: totaldailyenergy3
+    unit_of_measurement: kWh
+    accuracy_decimals: 3
+    device_class: energy
+    filters:
+      - multiply: 0.001
+    power_id: power3
+
+  - platform: pzemac
+    address: 4
+    update_interval: 10s
+    id: pzem4
+  #  voltage:
+  #    name: "Ch-4 Voltage"
+  #    id: vol4
+  #  frequency:
+  #    name: "Ch-4 Frequency"
+  #    id: freq4
+    current:
+      name: "Ch-4 Current"
+      id: cur4
+    power:
+      name: "Ch-4 Power"
+      id: power4
+      state_class: measurement
+    power_factor:
+      name: "Ch-4 Power Factor"
+      id: pow_factor4
+  - platform: total_daily_energy
+    name: "Ch-4 Total Daily Energy"
+    id: totaldailyenergy4
+    unit_of_measurement: kWh
+    accuracy_decimals: 3
+    device_class: energy
+    filters:
+      - multiply: 0.001
+    power_id: power4
+
+  - platform: pzemac
+    address: 5
+    update_interval: 10s
+    id: pzem5
+   # voltage:
+   #   name: "Ch-5 Voltage"
+   #   id: vol5
+   # frequency:
+   #   name: "Ch-5 Frequency"
+   #   id: freq5
+    current:
+      name: "Ch-5 Current"
+      id: cur5
+    power:
+      name: "Ch-5 Power"
+      id: power5
+      state_class: measurement
+    power_factor:
+      name: "Ch-5 Power Factor"
+      id: pow_factor5
+  - platform: total_daily_energy
+    name: "Ch-5 Total Daily Energy"
+    id: totaldailyenergy5
+    unit_of_measurement: kWh
+    accuracy_decimals: 3
+    device_class: energy
+    filters:
+      - multiply: 0.001
+    power_id: power5
+
+  - platform: pzemac
+    address: 6
+    update_interval: 10s
+    id: pzem6
+#    voltage:
+#      name: "Ch-6 Voltage"
+#      id: vol6
+#    frequency:
+#      name: "Ch-6 Frequency"
+#      id: freq6
+    current:
+      name: "Ch-6 Current"
+      id: cur6
+    power:
+      name: "Ch-6 Power"
+      id: power6
+      state_class: measurement
+    power_factor:
+      name: "Ch-6 Power Factor"
+      id: pow_factor6
+  - platform: total_daily_energy
+    name: "Ch-6 Total Daily Energy"
+    id: totaldailyenergy6
+    unit_of_measurement: kWh
+    accuracy_decimals: 3
+    device_class: energy
+    filters:
+      - multiply: 0.001
+    power_id: power6
